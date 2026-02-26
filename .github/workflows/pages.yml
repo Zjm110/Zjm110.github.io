@@ -25,11 +25,18 @@ jobs:
             ${{ runner.OS }}-npm-cache-
             
       - name: Install Dependencies
-        run: npm install
-        
+        run: |
+          npm install
+          # 关键修复：手动修复 hexo 可执行文件权限
+          chmod +x node_modules/.bin/hexo
+          
       - name: Build
-        run: npx hexo generate  # 用 npx 代替直接调用
-        
+        run: |
+          # 验证 hexo 是否存在且可执行
+          ls -la node_modules/.bin/hexo || true
+          # 执行生成
+          npx hexo generate
+          
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
