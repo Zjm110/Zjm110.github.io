@@ -1,16 +1,17 @@
 ---
 title: 搭建Hexo博客
 date: 2026-02-26 15:48:19
-tags:
+tags: 
+    - 搭建
+    - Hexo
 ---
 
 # 搭建Hexo博客
 
-目标：搭建一个轻量、高效，而且可以完全免费托管的Hexo博客。
-辅助：deepseek、Microsoft、Google Chrome等。
-路线：***GitHub Pages + Actions***
-
-&emsp;&emsp;选择 GitHub Pages + Actions 这条路线，是告别手动部署烦恼、拥抱自动化最明智的选择。它的核心流程是：只需要把博客的源码推送到 GitHub，剩下的构建、部署工作都由 GitHub 自动完成。以后写完新文章，执行 git push 就行，博客就会自动更新。
+**目标**：搭建一个轻量、高效，而且可以完全免费托管的Hexo博客。
+**辅助**：deepseek、Microsoft、Google Chrome等。
+**路线**：***GitHub Pages + Actions*** 。告别手动部署烦恼、拥抱自动化最明智的选择。
+**核心流程**：只需要把博客的源码推送到 GitHub，剩下的构建、部署工作都由 GitHub 自动完成。以后写完新文章，执行 git push 就行，博客就会自动更新。
 
 ## 准备工作
 
@@ -24,9 +25,11 @@ tags:
 
 ### 安装node.js
 
-[node.js官网](https://nodejs.org/en/download)
+[download](https://nodejs.org/en/download)
 
-{% asset_img img01.png%}
+{% asset_img img01.png 图1_1%}
+
+点击Windows Installer(.msi)
 
 {% asset_img img02.png%}
 
@@ -79,7 +82,7 @@ tags:
 1. 打开命令行，执行 npm install -g hexo-cli 安装Hexo。
 2. 执行 hexo init myblog 创建一个名为 myblog 的博客文件夹。
 3. 进入该文件夹 (cd myblog)，执行 npm install 安装依赖。
-4. 执行 hexo s，然后在浏览器打开 \http://localhost:4000，你就能在本地看到博客了！
+4. 执行 hexo s，然后在浏览器打开 http:\//localhost:4000，你就能在本地看到博客了！
 
 ----------
 
@@ -199,7 +202,7 @@ hexo clean && hexo g && hexo d
 
 |步骤|	核心操作	|说明|
 |---------|--------|-----|
-|第一步|	在 GitHub 创建新仓库|	仓库名必须为 \Zjm110.github.io|
+|第一步|	在 GitHub 创建新仓库|	仓库名必须为 Zjm110\.github.io|
 |第二步|	准备本地博客源码|	清理并准备好要推送的 Hexo 源码|
 |第三步|	配置 GitHub Actions 工作流	|创建关键配置文件，告诉 GitHub 如何自动构建|
 |第四步|	推送源码并见证自动化	|将源码推送到 GitHub，触发自动部署|
@@ -210,13 +213,13 @@ hexo clean && hexo g && hexo d
 ### 第一步：在 GitHub 上创建专属仓库
 
 首先，我们需要一个存放博客源码的“家”。
-1. 登录你的 GitHub 账号，点击右上角的 “+” 号，选择 “New repository”。
+1. 登录GitHub 账号，点击右上角的 “+” 号，选择 “New repository”。
 2. 最关键的一步：在 “Repository name” 一栏，必须填写 Zjm110\.github.io（请务必将 Zjm110 替换成你自己的 GitHub 用户名）。这是 GitHub Pages 识别用户网站的固定格式。
 3. 仓库状态选择 “Public”（公开），这样 Pages 服务才能免费工作。
 4. 建议勾选 “Add a README file”，让仓库初始化更顺利。
 5. 确认无误后，点击 “Create repository”。
 
-<img src="build-myblog/img12.png" width="800">
+{% asset_img img12.png%}
 
 ### 第二步：准备本地的 Hexo 博客源码
 
@@ -229,6 +232,10 @@ hexo clean && hexo g && hexo d
 ### 第三步：配置自动化部署的“大脑”—— GitHub Actions
 
 &emsp;&emsp;这是让一切自动化的核心。我们将在本地博客项目中创建一个特殊的文件，告诉 GitHub 如何进行构建。
+1. 在myblog根目录下创建.gitignore和.github文件夹
+2. 在.github文件夹下创建workflows 文件夹
+3. 我一直都在用Visual Studio Code，打开Myblog目录编辑.gitignore内容的。
+
 
 #### 创建核心配置文件
 
@@ -243,28 +250,40 @@ name: Pages
 on:
   push:
     branches:
-      - main # 监听 main 分支的推送事件
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js 20 # 将这里的 20 替换为你第一步记下的 Node.js 主版本号
+      
+      - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: "20" # 例如 "18", "20"
+          node-version: "20"
+          
       - name: Cache NPM dependencies
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.OS }}-npm-cache
+          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.OS }}-npm-cache
+            ${{ runner.OS }}-npm-cache-
+            
       - name: Install Dependencies
-        run: npm install
+        run: |
+          npm install
+          # 关键修复：手动修复 hexo 可执行文件权限
+          chmod +x node_modules/.bin/hexo
+          
       - name: Build
-        run: npm run build
+        run: |
+          # 验证 hexo 是否存在且可执行
+          ls -la node_modules/.bin/hexo || true
+          # 执行生成
+          npx hexo generate
+          
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -285,7 +304,7 @@ jobs:
         uses: actions/deploy-pages@v4
 ```
 
-> :memo: 重要修改：请务必将代码中 Use Node.js 步骤里的 node-version: "24" 后面的数字，替换成你刚才记下的 Node.js 主版本号（例如 18 或 24）。
+> 重要修改：请务必将代码中 Use Node.js 步骤里的 node-version: "20" 后面的数字，替换成你刚才记下的 Node.js 主版本号（例如 18 或 20，我电脑里的node版本是24，但是写的是20，写24部署不成功）。
 
 #### 创建.gitignore文件
 
@@ -323,6 +342,7 @@ db.json
 |.vscode/ / .idea/	|编辑器的个人配置|	每个人的开发习惯不同，不应该强制共用|
 
 
+
 ### 第四步：推送源码，启动自动化
 
 &emsp;&emsp;现在，我们只需将本地所有配置好的源码推送到 GitHub，剩下的工作就交给 Actions 了。
@@ -348,6 +368,12 @@ git push -u origin main
 ```
 
 &emsp;&emsp;推送成功后，打开浏览器，进入 GitHub 仓库页面 (https:\//github.com/Zjm110/Zjm110.github.io)，点击顶部的 “Actions” 标签。应该能看到一个名为 “Pages” 的工作流程正在运行。等待黄色圆点变成绿色的对勾，就表示自动构建和部署成功了。
+
+> 确认博客是否已部署
+> &emsp;&emsp;去 GitHub 仓库的 Actions 标签页，看看最近一次工作流运行：
+> + 如果是绿色对勾：说明构建成功，等一两分钟后访问 https:\//zjm110.github.io
+> + 如果是红色叉号：构建失败
+> + 如果是黄色圆点：说明正在构建，等几分钟再刷新
 
 ### 第五步：访问我的博客
 
