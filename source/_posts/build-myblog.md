@@ -26,23 +26,23 @@ tags:
 
 [node.js官网](https://nodejs.org/en/download)
 
-<img src="build-myblog/img01.png" width="800">
+{% asset_img img01.png%}
 
-<img src="build-myblog/img02.png" width="600">
+{% asset_img img02.png%}
 
-<img src="build-myblog/img03.png" width="600">
+{% asset_img img03.png%}
 
-<img src="build-myblog/img04.png" width="600">
+{% asset_img img04.png%}
 
-<img src="build-myblog/img05.png" width="600">
+{% asset_img img05.png%}
 
-<img src="build-myblog/img06.png" width="600">
+{% asset_img img06.png%}
 
-<img src="build-myblog/img07.png" width="600">
+{% asset_img img07.png%}
 
-<img src="build-myblog/img08.png" width="600">
+{% asset_img img08.png%}
 
-<img src="build-myblog/img09.png" width="800">
+{% asset_img img09.png%}
 
 ---------
 
@@ -111,7 +111,7 @@ hexo s
 
 ### 一、全局安装Hexo脚手架工具
 
-<img src="build-myblog/img10.png" width="800">
+{% asset_img img10.png%}
 
 > :memo: 那个 14 packages are looking for funding 的提示可以忽略，它是 npm 的一个公益功能，提示你有些开源项目在寻求资助，不影响使用。
 
@@ -145,7 +145,7 @@ INFO  Start processing
 INFO  Hexo is running at http://localhost:4000/ . Press Ctrl+C to stop.
 ```
 
-<img src="build-myblog/img11.png" width="800">
+{% asset_img img11.png%}
 
 ----------
 
@@ -205,6 +205,8 @@ hexo clean && hexo g && hexo d
 |第四步|	推送源码并见证自动化	|将源码推送到 GitHub，触发自动部署|
 |第五步|	访问你的在线博客	|在浏览器中查看成果|
 
+---------
+
 ### 第一步：在 GitHub 上创建专属仓库
 
 首先，我们需要一个存放博客源码的“家”。
@@ -228,7 +230,9 @@ hexo clean && hexo g && hexo d
 
 &emsp;&emsp;这是让一切自动化的核心。我们将在本地博客项目中创建一个特殊的文件，告诉 GitHub 如何进行构建。
 
-&emsp;&emsp;创建核心配置文件：在 workflows 文件夹内，创建一个新文件，命名为 **pages.yml**（文件名可自定义，后缀必须是 .yml）。
+#### 创建核心配置文件
+
+&emsp;&emsp;在 workflows 文件夹内，创建一个新文件，命名为 **pages.yml**（文件名可自定义，后缀必须是 .yml）。
 
 写入配置代码：将以下代码完整复制进去。
 
@@ -281,9 +285,43 @@ jobs:
         uses: actions/deploy-pages@v4
 ```
 
-<img src="build-myblog/img13.png" width="800">
-
 > :memo: 重要修改：请务必将代码中 Use Node.js 步骤里的 node-version: "24" 后面的数字，替换成你刚才记下的 Node.js 主版本号（例如 18 或 24）。
+
+#### 创建.gitignore文件
+
+把下面这些内容完整复制进去：
+
+```bash
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 依赖文件夹
+node_modules/
+
+# Hexo 生成的文件
+public/
+.deploy_git/
+
+# 日志和缓存
+*.log
+db.json
+
+# IDE 配置（如果你用过这些编辑器）
+.vscode/
+.idea/
+*.sublime-*
+```
+
+|内容	|作用	|如果不忽略会怎样|
+|-----|--------|------------|
+|.deploy_git/	|最关键！ Hexo 部署时生成的临时 Git 文件夹	|GitHub Actions 会把它当成子模块，导致你现在遇到的报错|
+|public/	|Hexo 生成的静态网页文件	|每次构建都会变化，没必要存源码里|
+|node_modules/|	所有依赖包|	体积巨大（几百 MB），而且可以 npm install 重新生成|
+|*.log / db.json|	日志和缓存文件|	每台机器不一样，提交了反而容易冲突|
+|.DS_Store / Thumbs.db	|系统自动生成的文件夹配置文件	|纯属多余，不应该进仓库|
+|.vscode/ / .idea/	|编辑器的个人配置|	每个人的开发习惯不同，不应该强制共用|
+
 
 ### 第四步：推送源码，启动自动化
 
@@ -309,29 +347,11 @@ git remote add origin https://github.com/Zjm110/Zjm110.github.io.git
 git push -u origin main
 ```
 
-------
-
-```bash
-$ cd D:/today/myblog
-
-$ git add .
-
-$ git commit -m "首次提交Hexo源码"
-
-$ git remote add origin https://github.com/Zjm110/Zjm110.github.io.git
-
-git push -u origin main
-```
-
 &emsp;&emsp;推送成功后，打开浏览器，进入 GitHub 仓库页面 (https:\//github.com/Zjm110/Zjm110.github.io)，点击顶部的 “Actions” 标签。应该能看到一个名为 “Pages” 的工作流程正在运行。等待黄色圆点变成绿色的对勾，就表示自动构建和部署成功了。
-
-<img src="build-myblog/img14.png" width="800">
 
 ### 第五步：访问我的博客
 
 &emsp;&emsp;打开浏览器，访问 [我的博客](https://Zjm110.github.io)就能看到我的 Hexo 博客了！
-
-<img src="build-myblog/img15.png" width="800">
 
 &emsp;&emsp;从此以后这套工作流建立后，博客的更新方式将彻底改变。以后每次写完新文章，只需要在博客根目录下执行三条命令：
 
@@ -342,5 +362,3 @@ git push
 ```
 
 &emsp;&emsp;代码推送到 GitHub 后，Actions 会自动开始构建并部署。无需再手动执行 hexo g 和 hexo d，更不需要像在 Gitee 上那样去手动点“更新”。
-
-<img src="build-myblog/img16.png" width="800">
