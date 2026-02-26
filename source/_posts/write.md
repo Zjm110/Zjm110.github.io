@@ -7,15 +7,6 @@ tags:
 ---
 # 发布博客
 
-```bash
-hexo new "文章标题"    # 写新文章
-git add .             # 添加
-git commit -m "更新"   # 提交
-git push              # 推送（自动部署）
-```
-
---------
-
 ## 写文章
 
 ```bash
@@ -32,7 +23,7 @@ tags:                # 标签（可多个）
 # 这里是正文，用Markdown语法写...
 ```
 
-访问本地博客：
+## 访问本地博客预览
 
 ```bash
 $ hexo clean
@@ -67,9 +58,18 @@ INFO  Hexo is running at http://localhost:4000/ . Press Ctrl+C to stop.
 INFO  Bye!
 ```
 
+## 访问线上博客
+
+```bash
+hexo new "文章标题"    # 写新文章
+git add .             # 添加
+git commit -m "更新"   # 提交
+git push              # 推送（自动部署）
+```
 -----------
 
 常用命令：
+
 ```bash
 hexo new "postName" #新建文章
 hexo new page "pageName" #新建页面
