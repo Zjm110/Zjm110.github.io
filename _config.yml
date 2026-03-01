@@ -105,3 +105,9 @@ deploy:
   repo: https://github.com/Zjm110/Zjm110.github.io.git
   branch: main
 
+# 加密插件配置
+encrypt:
+  enable: true
+  # 不要设置 default_password！让每篇文章自己决定密码
+  abstract: 有东西被加密了, 请输入密码查看.
+  message: 您好, 这里需要密码.
