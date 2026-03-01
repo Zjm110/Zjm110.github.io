@@ -10,7 +10,7 @@ tags:
 
 **目标**：搭建一个轻量、高效，而且可以完全免费托管的Hexo博客。
 **辅助**：deepseek、Microsoft、Google Chrome等。
-**博客工作流**：Hexo + GitHub Pages。
+**技术栈**：Hexo + GitHub Pages。
 **路线**：***GitHub Pages + Actions*** 。告别手动部署烦恼、拥抱自动化最明智的选择。
 **核心流程**：只需要把博客的源码推送到 GitHub，剩下的构建、部署工作都由 GitHub 自动完成。以后写完新文章，执行 git push 就行，博客就会自动更新。
 
