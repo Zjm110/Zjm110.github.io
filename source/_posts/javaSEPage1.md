@@ -1,8 +1,8 @@
 ---
-title: JavaSE
+title: 绪论
 date: 2026-03-01 11:19:14
 tags: 
-  - JavaSE
+  - Java SE
   - Java
 ---
 # 绪论
