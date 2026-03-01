@@ -1,6 +1,7 @@
 ---
 title: 文章加密
 date: 2026-03-01 12:43:07
+categories: Hexo
 tags: Hexo
 password: 123456
 abstract: 私密笔记

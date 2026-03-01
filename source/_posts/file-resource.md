@@ -1,6 +1,7 @@
 ---
 title: 文章资源文件夹
 date: 2026-02-26 19:46:14
+categories: Hexo
 tags: 
   - 配置Hexo
   - Hexo

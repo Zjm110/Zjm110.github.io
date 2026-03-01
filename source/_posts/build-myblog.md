@@ -1,6 +1,7 @@
 ---
 title: 搭建Hexo博客
 date: 2026-02-26 15:48:19
+categories: Hexo
 tags: 
     - 搭建
     - Hexo

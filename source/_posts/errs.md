@@ -1,11 +1,217 @@
 ---
 title: errs
 date: 2026-02-26 20:20:59
+categories: Hexo
 tags: 
   - err
   - Hexo
 ---
 # 遇到的error
+
+## 网站内容不显示
+
+{% asset_img noweb.png %}
+
+### 第一步：创建.gitignore 文件
+
+&emsp;&emsp;在根目录下用记事本创建一个新文件：
+
+```bash
+notepad .gitignore
+```
+
+&emsp;&emsp;系统会问“是否要创建新文件”，点 “是”。然后在记事本里粘贴以下内容：
+
+```bash
+.deploy_git/
+public/
+node_modules/
+*.log
+db.json
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+```
+
+&emsp;&emsp;保存文件（Ctrl + S），然后关闭记事本。
+
+### 第二步：验证文件类型
+
+在命令行执行：
+
+```bash
+dir .gitignore
+```
+
+如果显示类似：
+
+```bash
+2025-03-21  10:00               123 .gitignore
+```
+
+&emsp;&emsp;说明创建成功了（没有&lt;DIR&gt; 标记，说明是文件）。
+
+### 第三步：重新执行移除操作
+
+```bash
+# 1. 把 .deploy_git 从 Git 跟踪中移除（但保留在硬盘上）
+git rm -r --cached .deploy_git
+
+# 2. 添加所有改动（包括刚才创建的 .gitignore）
+git add .
+
+# 3. 提交
+git commit -m "移除 .deploy_git 跟踪，添加 .gitignore"
+
+# 4. 推送到 GitHub
+git push
+```
+
+## npm install出现err
+
+```bash
+# 1.创建一个文件夹存放博客
+$ pwd
+/d/today
+
+朱俊梅@Zjm MINGW64 /d/today
+$ hexo init myblog
+INFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.git
+fatal: unable to access 'https://github.com/hexojs/hexo-starter.git/': Recv failure: Connection was reset
+WARN  git clone failed. Copying data instead
+INFO  Install dependencies
+'npm' is not recognized as an internal or external command,
+operable program or batch file.
+WARN  Failed to install dependencies. Please run 'npm install' in "D:\today\myblog" folder.
+```
+
+在GitBash中
+```bash
+$ npm install
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated cuid@2.1.8: Cuid and other k-sortable and non-cryptographic ids (Ulid, ObjectId, KSUID, all UUIDs) are all insecure. Use @paralleldrive/cuid2 instead.
+npm warn deprecated abab@2.0.6: Use your platform's native atob() and btoa() methods instead
+npm warn deprecated domexception@4.0.0: Use your platform's native DOMException instead
+npm warn deprecated moize@6.1.7: This library has been deprecated in favor of micro-memoize, which as-of version 5 incorporates most of the functionality that this library offers at nearly half the size and better speed.
+npm warn cleanup Failed to remove some directories [
+npm warn cleanup   [
+npm warn cleanup     '\\\\?\\D:\\today\\myblog\\node_modules',
+npm warn cleanup     [Error: EPERM: operation not permitted, rmdir 'D:\today\myblog\node_modules\parse5\node_modules\entities\dist\esm\generated'] {
+npm warn cleanup       errno: -4048,
+npm warn cleanup       code: 'EPERM',
+npm warn cleanup       syscall: 'rmdir',
+npm warn cleanup       path: 'D:\\today\\myblog\\node_modules\\parse5\\node_modules\\entities\\dist\\esm\\generated'
+npm warn cleanup     }
+npm warn cleanup   ],
+npm warn cleanup   [
+npm warn cleanup     '\\\\?\\D:\\today\\myblog\\node_modules\\hexo',
+npm warn cleanup     [Error: EPERM: operation not permitted, rmdir 'D:\today\myblog\node_modules\hexo'] {
+npm warn cleanup       errno: -4048,
+npm warn cleanup       code: 'EPERM',
+npm warn cleanup       syscall: 'rmdir',
+npm warn cleanup       path: 'D:\\today\\myblog\\node_modules\\hexo'
+npm warn cleanup     }
+npm warn cleanup   ]
+npm warn cleanup ]
+npm error code 1
+npm error path D:\today\myblog\node_modules\hexo-util
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c npm run build:highlight
+npm error 'npm' is not recognized as an internal or external command,
+npm error operable program or batch file.
+npm error A complete log of this run can be found in: C:\Users\朱 俊梅\AppData\Local\npm-cache\_logs\2026-02-25T05_14_16_695Z-debug-0.log
+
+$ hexo server
+ERROR Cannot find module 'hexo' from 'D:\today\myblog'
+ERROR Local hexo loading failed in D:\today\myblog
+ERROR Try running: 'rm -rf node_modules && npm install --force'
+```
+
+### 解决不了
+
+```bash
+$ npm install --force
+npm warn using --force Recommended protections disabled.
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated abab@2.0.6: Use your platform's native atob() and btoa() methods instead
+npm warn deprecated domexception@4.0.0: Use your platform's native DOMException instead
+npm warn deprecated cuid@2.1.8: Cuid and other k-sortable and non-cryptographic ids (Ulid, ObjectId, KSUID, all UUIDs) are all insecure. Use @paralleldrive/cuid2 instead.
+npm warn deprecated moize@6.1.7: This library has been deprecated in favor of micro-memoize, which as-of version 5 incorporates most of the functionality that this library offers at nearly half the size and better speed.
+npm error code 1
+npm error path D:\today\myblog\node_modules\hexo-util
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c npm run build:highlight
+npm error 'npm' is not recognized as an internal or external command,
+npm error operable program or batch file.
+npm error A complete log of this run can be found in: C:\Users\朱 俊梅\AppData\Local\npm-cache\_logs\2026-02-25T05_18_50_290Z-debug-0.log
+
+$ hexo server
+ERROR Cannot find module 'hexo' from 'D:\today\myblog'
+ERROR Local hexo loading failed in D:\today\myblog
+ERROR Try running: 'rm -rf node_modules && npm install --force'
+```
+
+### 解决方案
+
+```bash
+# 1.完全删除 node_modules 和锁文件：
+
+# 先删除 node_modules 文件夹
+rmdir /s node_modules
+
+# 再删除 package-lock.json（如果有）
+del package-lock.json
+
+# 2.重新安装
+npm install
+
+# 3.启动博客
+hexo s
+```
+
+Windows 下删除 node_modules 的几个实用命令对比：
+
+|命令	|作用|	适用场景|
+|------|-------|--------|
+|rmdir node_modules	|只能删空文件夹	| 不适合|
+|rmdir /s node_modules	|删除整个文件夹（需确认）	| 最常用|
+|rmdir /s /q node_modules	静默删除（不询问）	| 批量操作时|
+|npm install --force|	强制重新安装	| 不想手动删时|
+
+-------------------
+
+按win+R
+```bash
+C:\Users\朱俊梅>D:
+
+D:\>cd today\myblog
+
+D:\today\myblog>rmdir /s node_modules
+node_modules, Are you sure (Y/N)? Y
+
+D:\today\myblog>npm install
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated abab@2.0.6: Use your platform's native atob() and btoa() methods instead
+npm warn deprecated domexception@4.0.0: Use your platform's native DOMException instead
+npm warn deprecated cuid@2.1.8: Cuid and other k-sortable and non-cryptographic ids (Ulid, ObjectId, KSUID, all UUIDs) are all insecure. Use @paralleldrive/cuid2 instead.
+npm warn deprecated moize@6.1.7: This library has been deprecated in favor of micro-memoize, which as-of version 5 incorporates most of the functionality that this library offers at nearly half the size and better speed.
+
+added 237 packages in 8s
+
+29 packages are looking for funding
+  run `npm fund` for details
+
+D:\today\myblog>hexo s
+INFO  Validating config
+INFO  Start processing
+INFO  Hexo is running at http://localhost:4000/ . Press Ctrl+C to stop.
+```
+
+---------
 
 {% asset_img err.png %}
 
