@@ -1,5 +1,5 @@
 ---
-title: JSON数据绑定
+title: JSON数据绑定（一）
 date: 2026-03-01 21:42:39
 categories: Java
 tags: 
@@ -30,7 +30,7 @@ abstract: 私密笔记
 │   │   │       ├───js
 │   │   │       │   ├───jquery-3.2.1.min.js
 │   │   │       │   └───jquery-3.7.1.min.js
-│   │   │       ├───WEB-INF
+│   │   │       └───WEB-INF
 │   │   │       │    └───web.xml
 │   │   │       └───index.jsp
 │   └───test

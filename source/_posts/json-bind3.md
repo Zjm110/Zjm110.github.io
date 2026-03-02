@@ -10,7 +10,7 @@ tags:
 password: 335t3
 abstract: 私密笔记
 ---
-# 【案例】JSON数据绑定
+# 【案例】JSON数据绑定（三）
 
 &emsp;&emsp;下面通过一个异步提交商品案例，演示Spring MVC中的JSON数据绑定，案例具体实现步骤如下。
 

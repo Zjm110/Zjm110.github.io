@@ -10,7 +10,7 @@ tags:
 password: 335t3
 abstract: 私密笔记
 ---
-# JSON数据绑定
+# JSON数据绑定（二）
 
 &emsp;&emsp;JSON是一种轻量级的数据交换格式，它与XML非常相似，都可以用于存储数据，但相对于XML来说，JSON解析速度更快，占用空间更小。因此在实际开发中，客户端请求中发送的数据通常为JSON格式。
 
