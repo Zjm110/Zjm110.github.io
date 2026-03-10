@@ -1,0 +1,46 @@
+/* 首页文章卡片 */
+/* #recent-posts>.recent-post-item { */
+    /* background-image: url('/images/card-bg-1.jpg');
+    background-size: cover;   */
+    /*让图片尽可能放大以覆盖整个卡片区域，可能会裁剪部分图片。*/
+    /* background-position: center;    */
+    /*让图片居中显示。*/
+/* } */
+
+/* 侧边栏 */
+/* .card-widget {
+    background-image: url('/images/sidebar-bg.jpg');
+    background-size: cover;
+} */
+
+/* 所有页面背景 */
+/* #aside_content .card-widget,
+#recent-posts>.recent-post-item {
+    background-image: url('/images/global-bg.jpg');
+    background-size: cover;
+} */
+
+
+/* 文章页背景 */
+.layout_post>#post {
+    /* 以下代表透明度为0.7 可以自行修改*/
+    background: rgba(255,255,255,.8);
+}
+ 
+/* 所有页面背景 */
+/* #aside_content .card-widget, #recent-posts>.recent-post-item, .layout_page>div:first-child:not(.recent-posts), .layout_post>#page, .layout_post>#post, .read-mode .layout_post>#post{ */
+    /* 以下代表透明度为0.7 */
+    /* background: rgba(255,255,255,.3);
+} */
+
+/*侧边卡片的透明度 */
+:root {
+  --card-bg: rgba(255, 255, 255, .8);
+}
+
+/* 页脚透明 */
+/* #footer { */
+	/* 以下代表透明度为0.7 */
+	/* background: rgba(255,255,255, .3); */
+/* } */
+ 
